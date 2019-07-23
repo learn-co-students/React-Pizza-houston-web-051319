@@ -20,7 +20,7 @@ class App extends Component {
         <Header/>
         {
           this.state.editClicked ?
-          <PizzaForm editPizza={this.state.editPizza} toppingInput={this.toppingInput} sizeInput={this.sizeInput} veggieOnClick={this.veggieOnClick} editSubmit={this.editSubmit} /> :
+          <PizzaForm editPizza={this.state.editPizza} handlePizzaChange={this.handlePizzaChange} editSubmit={this.editSubmit} /> :
           null
         }
         <PizzaList pizzas={this.state.pizzas} editButton={this.editButton} />
@@ -40,20 +40,13 @@ class App extends Component {
     this.setState({ editClicked:true })
   }
 
-  veggieOnClick = ()=>{
-    this.setState({ editPizza: {...this.state.editPizza, vegetarian: !this.state.editPizza.vegetarian} })
-  }
 
-  toppingInput = (topping) => {
-    this.setState({ editPizza: {...this.state.editPizza, topping } })
-  }
-
-  sizeInput = (size) => {
-    this.setState({ editPizza: {...this.state.editPizza, size } })
+  handlePizzaChange = (property, value)=>{
+    this.setState({ editPizza: {...this.state.editPizza, [property]: value} })
   }
 
   editSubmit = () => {
-    if(this.state.editPizza.id){
+    if(!this.state.editPizza.id){
       console.log("Pick a pizza to edit first")
     }else{
       fetch(`http://localhost:3000/pizzas/${this.state.editPizza.id}`,{
@@ -70,6 +63,8 @@ class App extends Component {
       })
     }
   }
+
+  editformvaluesthing = (topping,size,vegetarian) => { console.log("blah")}
 
 }
 
